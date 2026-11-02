@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>렌트카 검색</title>
+</head>
+<body>
+<main>
+    <h1>렌트카 검색</h1>
+
+    <form th:action="@{/cars}" method="get" th:object="${searchForm}">
+        <div>
+            <label for="startDate">대여 시작일</label>
+            <input id="startDate" type="date" th:field="*{startDate}" required>
+        </div>
+        <div>
+            <label for="endDate">반납 예정일</label>
+            <input id="endDate" type="date" th:field="*{endDate}" required>
+        </div>
+        <button type="submit">차량 검색</button>
+    </form>
+
+    <p th:if="${dateError}" th:text="${dateError}" role="alert"></p>
+
+    <section th:if="${searched and dateError == null}">
+        <h2>검색 결과</h2>
+        <p th:if="${#lists.isEmpty(cars)}">해당 기간에 예약 가능한 차량이 없다.</p>
+
+        <article th:each="car : ${cars}">
+            <h3 th:text="${car.modelName}">차량 모델명</h3>
+            <p>차량 번호: <span th:text="${car.carNumber}">12가 3456</span></p>
+            <p>
+                1일 대여료:
+                <span th:text="|${#numbers.formatInteger(car.dailyPrice, 0, 'COMMA')}원|">55,000원</span>
+            </p>
+            <a th:href="@{/cars/{carId}/reservation(carId=${car.id}, startDate=${searchForm.startDate}, endDate=${searchForm.endDate})}">
+                예약하기
+            </a>
+        </article>
+    </section>
+</main>
+</body>
+</html>

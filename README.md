@@ -36,11 +36,11 @@ Redis, RabbitMQ, Prometheus, Grafana는 기본 기능을 구현한 뒤 관련 �
 
 1. [렌트카 예약 시스템, 무엇을 만들까?](https://oy-blog.com/posts/58)
 2. [렌트카 예약 시스템 개발 환경 구성하기](https://oy-blog.com/posts/59)
+3. [렌트카 차량·예약·결제 도메인 설계하기](https://oy-blog.com/posts/60)
+4. [Thymeleaf로 차량 검색과 예약 화면 만들기](https://oy-blog.com/posts/61)
 
 ## 예정된 주제
 
-3. 차량·예약·결제 도메인 설계하기
-4. Thymeleaf로 차량 검색과 예약 화면 만들기
 5. 예약 가능 차량 검색과 예약 생성 구현하기
 6. 랜덤 지연을 적용한 결제 시뮬레이터 만들기
 7. 결제 결과와 예약 상태를 PostgreSQL에 저장하기
@@ -58,7 +58,7 @@ Redis, RabbitMQ, Prometheus, Grafana는 기본 기능을 구현한 뒤 관련 �
 - 날짜 단위 대여를 기준으로 한다.
 - 대여 시작일은 반납 예정일보다 빨라야 한다.
 - 같은 차량의 사용 기간이 겹치는 예약은 허용하지 않는다.
-- 예약 상태는 `RESERVED`, `RENTING`, `COMPLETED`, `CANCELED`로 관리한다.
+- 예약 상태는 `PAYMENT_PENDING`, `RESERVED`, `RENTING`, `COMPLETED`, `CANCELED`로 관리한다.
 - 결제와 환불 상태는 예약 상태와 분리해 기록한다.
 - 대여 시작 전 예약을 취소할 수 있으며, 결제가 완료된 경우 환불을 처리한다.
 

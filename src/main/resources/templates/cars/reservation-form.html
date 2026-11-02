@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>예약 정보 입력</title>
+</head>
+<body>
+<main>
+    <h1>예약 정보 입력</h1>
+
+    <section>
+        <h2 th:text="${car.modelName}">차량 모델명</h2>
+        <p>
+            대여 기간:
+            <span th:text="${reservationForm.startDate}">시작일</span>
+            ~
+            <span th:text="${reservationForm.endDate}">반납 예정일</span>
+        </p>
+        <p>
+            1일 대여료:
+            <span th:text="|${#numbers.formatInteger(car.dailyPrice, 0, 'COMMA')}원|">55,000원</span>
+        </p>
+    </section>
+
+    <form th:action="@{/reservations}" method="post" th:object="${reservationForm}">
+        <input type="hidden" th:field="*{carId}">
+        <input type="hidden" th:field="*{startDate}">
+        <input type="hidden" th:field="*{endDate}">
+
+        <div>
+            <label for="renterName">예약자 이름</label>
+            <input id="renterName" type="text" th:field="*{renterName}"
+                   maxlength="50" autocomplete="name" required>
+        </div>
+        <div>
+            <label for="renterPhone">연락처</label>
+            <input id="renterPhone" type="tel" th:field="*{renterPhone}"
+                   maxlength="20" autocomplete="tel" required>
+        </div>
+
+        <button type="submit">예약 요청</button>
+    </form>
+
+    <a th:href="@{/cars(startDate=${reservationForm.startDate}, endDate=${reservationForm.endDate})}">
+        검색 결과로 돌아가기
+    </a>
+</main>
+</body>
+</html>
