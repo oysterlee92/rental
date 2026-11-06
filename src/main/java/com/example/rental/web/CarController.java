@@ -2,6 +2,7 @@ package com.example.rental.web;
 
 import com.example.rental.car.CarSearchService;
 import com.example.rental.car.CarSummary;
+import com.example.rental.reservation.ReservationService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,11 +19,14 @@ import java.util.Optional;
 @Controller
 public class CarController {
 
-    // 차량 검색과 조회를 담당하는 서비스
+    // 기간별 차량 검색을 담당하는 서비스
     private final CarSearchService carSearchService;
+    // 예약 검증과 저장을 담당하는 서비스
+    private final ReservationService reservationService;
 
-    public CarController(CarSearchService carSearchService) {
+    public CarController(CarSearchService carSearchService, ReservationService reservationService) {
         this.carSearchService = carSearchService;
+        this.reservationService = reservationService;
     }
 
     @GetMapping("/cars")
@@ -46,12 +50,10 @@ public class CarController {
     }
 
     @GetMapping("/cars/{carId}/reservation")
-    public String reservationForm(
-            @PathVariable Long carId,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
-            Model model
-    ) {
+    public String reservationForm(@PathVariable("carId") Long carId,
+                                  @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+                                  @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+                                  Model model) {
         if (endDate.isBefore(startDate)) {
             return "redirect:/cars";
         }
@@ -62,35 +64,22 @@ public class CarController {
         }
 
         model.addAttribute("car", car.get());
-        model.addAttribute("reservationForm", new ReservationForm(carId, startDate, endDate));
-
+        model.addAttribute("reservationForm",
+                new ReservationForm(carId, startDate, endDate));
         return "cars/reservation-form";
     }
 
     @PostMapping("/reservations")
-    public String submitReservation(
-            @ModelAttribute("reservationForm") ReservationForm form,
-            Model model
-    ) {
-        if (form.getCarId() == null
-                || form.getStartDate() == null
-                || form.getEndDate() == null
-                || form.getRenterName() == null
-                || form.getRenterName().isBlank()
-                || form.getRenterPhone() == null
-                || form.getRenterPhone().isBlank()
-                || form.getEndDate().isBefore(form.getStartDate())) {
+    public String submitReservation(@ModelAttribute("reservationForm") ReservationForm form, Model model) {
+        try {
+            Long reservationId = reservationService.createReservation(
+                    form.getCarId(), form.getStartDate(), form.getEndDate(),
+                    form.getRenterName(), form.getRenterPhone());
+
+            model.addAttribute("reservationId", reservationId);
+            return "cars/reservation-complete";
+        } catch (IllegalArgumentException | IllegalStateException exception) {
             return "redirect:/cars";
         }
-
-        Optional<CarSummary> car = carSearchService.findAvailableCar(
-                form.getCarId(), form.getStartDate(), form.getEndDate());
-        if (car.isEmpty()) {
-            return "redirect:/cars";
-        }
-
-        model.addAttribute("car", car.get());
-        model.addAttribute("reservationForm", form);
-        return "cars/reservation-complete";
     }
 }

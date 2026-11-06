@@ -38,10 +38,10 @@ Redis, RabbitMQ, Prometheus, Grafana는 기본 기능을 구현한 뒤 관련 �
 2. [렌트카 예약 시스템 개발 환경 구성하기](https://oy-blog.com/posts/59)
 3. [렌트카 차량·예약·결제 도메인 설계하기](https://oy-blog.com/posts/60)
 4. [Thymeleaf로 차량 검색과 예약 화면 만들기](https://oy-blog.com/posts/61)
+5. [PostgreSQL로 예약 가능 차량 검색과 예약 생성하기](https://oy-blog.com/posts/62)
 
 ## 예정된 주제
 
-5. 예약 가능 차량 검색과 예약 생성 구현하기
 6. 랜덤 지연을 적용한 결제 시뮬레이터 만들기
 7. 결제 결과와 예약 상태를 PostgreSQL에 저장하기
 8. 대여 시작·반납·예약 취소 구현하기

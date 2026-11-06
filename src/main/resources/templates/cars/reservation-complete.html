@@ -3,24 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>예약 요청 확인</title>
+    <title>예약 생성 완료</title>
 </head>
 <body>
 <main>
-    <h1>예약 입력 화면 연결 확인</h1>
-    <p>이번 회차에서는 실제 예약과 결제를 저장하지 않는다.</p>
-    <dl>
-        <dt>차량</dt>
-        <dd th:text="${car.modelName}">차량 모델명</dd>
-        <dt>예약자</dt>
-        <dd th:text="${reservationForm.renterName}">예약자 이름</dd>
-        <dt>대여 기간</dt>
-        <dd>
-            <span th:text="${reservationForm.startDate}">시작일</span>
-            ~
-            <span th:text="${reservationForm.endDate}">반납 예정일</span>
-        </dd>
-    </dl>
+    <h1>예약이 생성됐다</h1>
+    <p>
+        예약 번호:
+        <strong th:text="${reservationId}">예약 ID</strong>
+    </p>
+    <p>현재 상태: 결제 대기</p>
+    <p>이번 회차에서는 예약만 저장하고 결제는 다음 회차에서 처리한다.</p>
     <a th:href="@{/cars}">차량 검색으로 돌아가기</a>
 </main>
 </body>
