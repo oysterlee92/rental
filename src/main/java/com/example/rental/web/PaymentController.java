@@ -1,5 +1,7 @@
-package com.example.rental.payment;
+package com.example.rental.web;
 
+import com.example.rental.payment.PaymentSimulationResult;
+import com.example.rental.payment.PaymentSimulator;
 import com.example.rental.reservation.Reservation;
 import com.example.rental.reservation.ReservationRepository;
 import com.example.rental.reservation.ReservationStatus;
