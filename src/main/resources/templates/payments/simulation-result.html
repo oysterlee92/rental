@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>결제 시뮬레이션 결과</title>
+</head>
+<body>
+<main>
+    <h1>결제 시뮬레이션 결과</h1>
+    <p>예약 번호: <strong th:text="${reservationId}">예약 ID</strong></p>
+    <p>
+        결과:
+        <span th:text="${result.message}">결과 메시지</span>
+    </p>
+    <p>
+        결제 금액:
+        <span th:text="|${#numbers.formatInteger(result.amount, 0, 'COMMA')}원|"
+        >금액</span
+        >
+    </p>
+    <p>
+        대기 시간:
+        <span th:text="${result.delayMillis}">0</span> ms
+    </p>
+    <p>
+        현재 예약 상태는 결제 대기다. 이 회차에서는 결과를 DB에 기록하지 않는다.
+    </p>
+    <a th:href="@{/cars}">차량 검색으로 돌아가기</a>
+</main>
+</body>
+</html>

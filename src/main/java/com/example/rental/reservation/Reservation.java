@@ -79,6 +79,10 @@ public class Reservation {
         return id;
     }
 
+    public BigDecimal getTotalAmount() {
+        return totalAmount;
+    }
+
     public ReservationStatus getStatus() {
         return status;
     }
